@@ -15,7 +15,6 @@ let vender=''
 let num=0
 let shopname=''
 const token=[
-
 ]
 //IOS等用户直接用NobyDa的jd cookie
 
