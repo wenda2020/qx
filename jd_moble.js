@@ -1,4 +1,5 @@
 /*
+https://prodev.m.jd.com/mall/active/4MmNbTkve7YDv3cqfN65jyU54rSB/index.html
  */
 const $ = new Env('点鞭炮赢手机');
 const notify = $.isNode() ? require('./sendNotify') : '';
