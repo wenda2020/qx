@@ -91,12 +91,8 @@ async function addCart() {
 //            await $.wait(500)
             await task('goldfreshstores/exchange',`"joinId":"${$.joinId}","jobDetail":"${$.giftId}","jobForm":102`);//兑换
             await $.wait(500)
-        } else {
-            console.log(`可能微信上未登录京东`)
-        }
-    } else {
-        console.log(`获取失败`)
-    }
+        } else {console.log(`可能微信上未登录京东`)}
+    } else {console.log(`获取失败`)}
 }
 
 function task(function_id, body) {
@@ -119,7 +115,7 @@ function task(function_id, body) {
                                 case 'goldfreshstores/job':
                                     //console.log(data);
                                     if (data.code == 200) {
-                                        console.log(`完成任务`);
+                                      console.log(`完成任务`);
                                     } else if (data.code == 403) {
                                         console.log(data.data);
                                     }
@@ -127,11 +123,8 @@ function task(function_id, body) {
                                 case 'goldfreshstores/findExchangeList':
                                     $.exchangelist = data.data || [];
                                     for (let i of $.exchangelist) {
-                                        if (i.value2 == 400) {
-                                            $.exch.push({"giftId":k.giftId,"name":k.name})
-                                        }
+                                        if (i.value2 == 400) { $.exch.push({"giftId":k.giftId,"name":k.name}) }
                                     }
-                                    //console.log(data);
                                     break;
 //                                case 'goldfreshstores/findExchangeList':
 //                                    //console.log(data);
