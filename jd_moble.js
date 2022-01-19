@@ -84,7 +84,7 @@ async function jd_wish() {
                         await $.wait(100);
                         if (ite.taskPrefixType == 2) {
                             if (dotask.rewardInfoVo.taskFinish == true) {
-                                console.log("获得"+ dotask.rewardInfoVo.jbean);
+                                console.log("获得 "+ dotask.rewardInfoVo.jbean +"京豆");
                             }
                         } else if (ite.taskPrefixType == 1) {
                             let getreward = await takePost(`{"taskId":"${ite.taskId}","taskItemId":${ite.taskItemId},"timestamp":"${$.timestamp}","skuId":"","taskType":null,"apiMapping":"/api/task/getReward"}`);
@@ -96,6 +96,8 @@ async function jd_wish() {
                 }
             }
         }
+        let act = await takePost(`{"apiMapping":"/api/index/index"}`);
+        console.log(`任务共计 ${act.total} 天,已完成 ${act.finishNum} 天💪🏻加油💪🏻`)
     } catch (e) {
         $.logErr(e)
     }
