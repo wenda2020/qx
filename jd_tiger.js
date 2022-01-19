@@ -33,7 +33,6 @@ if ($.isNode()) {
     $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
     return;
   }
-  $.authorcode = await getActivityIdList('https://raw.githubusercontent.com/wenda2020/qx/main/tiger.json');
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
       cookie = cookiesArr[i];
@@ -141,11 +140,9 @@ async function jd_wish() {
                     } else {
                         console.log(`抽奖:${lottery.prizeName}`);
                     }
-                    await $.wait(2000)
+                    await $.wait(1000)
                 }
             }
-            await $.wait(1000)
-            await takePost(`{"shareId":${$.authorcode},"apiMapping":"/api/task/support/doSupport"}`);//助力作者
             await $.wait(1000)
             let taskALLlist = await takePost('{"apiMapping":"/api/task/brand/tabs"}');//获取任务总列表
             for (let k = 0; k < taskALLlist.length; k++) {
@@ -236,30 +233,6 @@ async function takePost(info) {
                 $.logErr(e, resp)
             } finally {
                 resolve(data['data'] || {});
-            }
-        })
-    })
-}
-function getActivityIdList(url) {
-    return new Promise(resolve => {
-        const options = {
-            url: `${url}?${new Date()}`, "timeout": 10000, headers: {
-            "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88"
-            }
-        };
-        $.get(options, async (err, resp, data) => {
-            try {
-                if (err) {
-                    $.log(err)
-                } else {
-                    if (data) {
-                        data = JSON.parse(data);
-                    }
-                }
-            } catch (e) {
-                $.logErr(e, resp)
-            } finally {
-                resolve(data.data || {});
             }
         })
     })
