@@ -33,6 +33,7 @@ if ($.isNode()) {
     $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
     return;
   }
+  console.log(`let Candraw = 0;//如果要抽奖改为1\nlet Candrawtime = 5;//默认抽奖次数5次\n\n//如果要生成送卡链接，而不是内部送卡，填①③④;如果内部送卡，填②③④⑤\nlet Cansharelink = 0;//①如果送卡链接改为1\nlet Cansharein = 0;//②如果要内部送卡改为1\nlet sent = '';//③要赠送卡片的账号顺序(从1开始)\nlet sharecardid = '';//④填入要赠送卡片的id\nlet receive = '';//⑤要收卡的账号顺序(从1开始)\n\n`)
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
       cookie = cookiesArr[i];
@@ -143,13 +144,13 @@ async function jd_wish() {
                     await $.wait(1000)
                 }
             }
-            await $.wait(1000)
+            await $.wait(500)
             let taskALLlist = await takePost('{"apiMapping":"/api/task/brand/tabs"}');//获取任务总列表
             for (let k = 0; k < taskALLlist.length; k++) {
                 $.everyTask = taskALLlist[k];
                 $.taskGroupId = $.everyTask.taskGroupId;
                 console.log(`去做分任务：${taskALLlist[k].brandName}`);
-                await $.wait(1000)
+                await $.wait(500)
                 let taskList = await takePost(`{"taskGroupId":${$.taskGroupId},"apiMapping":"/api/task/brand/getTaskList"}`);//获取分任务列表
                 for (let i = 0; i < taskList.length; i++) {
                     $.indexi = i;
@@ -161,7 +162,7 @@ async function jd_wish() {
                     $.browseTime = taskList[i].browseTime;
                     $.taskPrefixType = taskList[i].taskPrefixType;
                     $.hasNum = parseInt(taskList[i].totalNum) - parseInt(taskList[i].finishNum);//计算还需做多少次
-                    await $.wait(1000)
+                    await $.wait(500)
                     for (let m = 0; m < $.hasNum; m++) {
                         let lastList = await takePost(`{"taskGroupId":${$.taskGroupId},"apiMapping":"/api/task/brand/getTaskList"}`);
                         $.taskItemId = lastList[$.indexi].taskItemId;
