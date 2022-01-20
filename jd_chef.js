@@ -10,6 +10,7 @@ let cookiesArr = [], cookie = '';
 const JD_API_HOST = 'https://api.m.jd.com/api';
 $.shareId = '1483109985466830850';
 $.giftId = '3588';//默认兑换500豆；如果要兑换100豆改为3587、兑换1000豆改为3589
+$.giftId1 = '3560';//做食材，默认30材料400人气
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
     cookiesArr.push(jdCookieNode[item])
@@ -23,6 +24,7 @@ if ($.isNode()) {
     $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
     return;
   }
+  console.log(`\n\n$.giftId = '3588';//默认兑换500豆需要1000人气；如果(怕跑路)要兑换100豆500人气改为3587、兑换1000豆3000人气改为3589\n\n$.giftId1 = '3560';//做食材，默认30材料400人气;10材料100人气改为3555;20材料200人气改为3558；50材料600人气改为3562\n`)
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
       cookie = cookiesArr[i];
@@ -41,7 +43,10 @@ if ($.isNode()) {
       }
         try{
             await addCart();
-            await $.wait(6000);
+            await $.wait(1000)
+            console.log(`开始兑换京豆`)
+            await exchangebeans();
+            await $.wait(5000);
         }catch (e) {
             console.log(JSON.stringify(e));
         }
@@ -70,7 +75,6 @@ async function addCart() {
             console.log(`获取authortoken成功`)
             $.authorization = $.auth.token;
             $.taskList = [];
-            $.exch = [];
             await getactive();
             await $.wait(1000)
             await task('interact/common/shareByDay',`"joinId":"${$.joinId}"`);
@@ -87,9 +91,7 @@ async function addCart() {
                     }
                 }
             }
-//            await task('goldfreshstores/findExchangeList',`"joinId":"${$.joinId}","exchangeType":101`);//食物清单
-//            await $.wait(500)
-            await task('goldfreshstores/exchange',`"joinId":"${$.joinId}","jobDetail":"${$.giftId}","jobForm":102`);//兑换
+            await task('goldfreshstores/exchange',`"joinId":"${$.joinId}","jobDetail":"${$.giftId1}","jobForm":101`);//兑换
             await $.wait(500)
         } else {console.log(`可能微信上未登录京东`)}
     } else {console.log(`获取失败`)}
@@ -107,34 +109,16 @@ function task(function_id, body) {
                         if (data) {
                             switch (function_id) {
                                 case 'interact/common/shareByDay':
-                                    //console.log(data);
                                     break;
                                 case 'goldfreshstores/active':
-                                    //console.log(data);
                                     break;
                                 case 'goldfreshstores/job':
-                                    //console.log(data);
-                                    if (data.code == 200) {
-                                      console.log(`完成任务`);
-                                    } else if (data.code == 403) {
-                                        console.log(data.data);
-                                    }
+                                    if (data.code == 200) { console.log(`完成任务`); }
+                                    else if (data.code == 403) { console.log(data.data); }
                                     break;
-                                case 'goldfreshstores/findExchangeList':
-                                    $.exchangelist = data.data || [];
-                                    for (let i of $.exchangelist) {
-                                        if (i.value2 == 400) { $.exch.push({"giftId":k.giftId,"name":k.name}) }
-                                    }
-                                    break;
-//                                case 'goldfreshstores/findExchangeList':
-//                                    //console.log(data);
-//                                    break;
                                 case 'goldfreshstores/exchange':
-                                    if (data.code == 200) {
-                                        console.log(`兑换成功`)
-                                    } else if (data.code == 403) {
-                                        console.log(data.data);
-                                    }
+                                    if (data.code == 200) { console.log(`食材碎片兑换人气值成功`) }
+                                    else if (data.code == 403) { console.log(data.data) }
                                     break;
                                 default:
                                     $.log(JSON.stringify(data))
@@ -202,6 +186,44 @@ function getactive() {
                                 $.taskList.push({"name":k,"details":$.jobmap[k]})
                             }
                         }
+                    }
+                }
+            } catch (e) {
+                $.logErr(e, resp)
+            } finally {
+                resolve(data);
+            }
+        })
+    })
+}
+function exchangebeans() {
+    let body = `{"attributes":{"activeId":"GoldFreshStoresdacb82c0","joinId":"${$.joinId}","jobDetail":"${$.giftId}","jobForm":102}}`
+    let options = {
+        url: `https://www.kmg-jd.com/api/goldfreshstores/exchange`,
+        body:body,
+        headers: {
+            "Host":"www.kmg-jd.com",
+            "Accept": "application/json, text/plain, */*",
+            "Content-Type":"application/json;charset=UTF-8",
+            "Origin":"https://www.kmg-jd.com",
+            "Accept-Language": "zh-CN",
+            "Authorization": `${$.authorization}`,
+            "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1"),
+            "Referer": `https://www.kmg-jd.com/f7m3K6He/views/QhGmb8Hy/views/freshFood/index.html?`,
+            "Accept-Encoding": "gzip, deflate, br",
+        }
+    }
+    return new Promise(resolve => {
+        $.post(options, async (err, resp, data) => {
+            try {
+                if (err) {
+                    console.log(`${JSON.stringify(err)}`)
+                    console.log(`${$.name} API请求失败，请检查网路重试`)
+                } else {
+                    if(data){
+                        data = JSON.parse(data);
+                        if (data.code == 200) { console.log(`京豆兑换成功`) }
+                        else if (data.code == 403) { console.log(data.data) }
                     }
                 }
             } catch (e) {
