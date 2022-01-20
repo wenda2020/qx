@@ -33,7 +33,7 @@ if ($.isNode()) {
     $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
     return;
   }
-  console.log(`let Candraw = 0;//如果要抽奖改为1\nlet Candrawtime = 5;//默认抽奖次数5次\n\n//如果要生成送卡链接，而不是内部送卡，填①③④;如果内部送卡，填②③④⑤\nlet Cansharelink = 0;//①如果送卡链接改为1\nlet Cansharein = 0;//②如果要内部送卡改为1\nlet sent = '';//③要赠送卡片的账号顺序(从1开始)\nlet sharecardid = '';//④填入要赠送卡片的id\nlet receive = '';//⑤要收卡的账号顺序(从1开始)\n\n`)
+  console.log(`\n\nlet Candraw = 0;//如果要抽奖改为1\nlet Candrawtime = 5;//默认抽奖次数5次\n\n如果要生成送卡链接，而不是内部送卡，填①③④;如果内部送卡，填②③④⑤\nlet Cansharelink = 0;//①如果送卡链接改为1\nlet Cansharein = 0;//②如果要内部送卡改为1\nlet sent = '';//③要赠送卡片的账号顺序(从1开始)\nlet sharecardid = '';//④填入要赠送卡片的id\nlet receive = '';//⑤要收卡的账号顺序(从1开始)\n`)
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
       cookie = cookiesArr[i];
