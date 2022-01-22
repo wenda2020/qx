@@ -82,7 +82,7 @@ async function jd_wish() {
                         console.log(`去做任务：${ite.taskItemName}`)
                         let dotask = await takePost(`{"taskId":"${ite.taskId}","taskItemId":${ite.taskItemId},"apiMapping":"/api/task/doTask"}`);
                         $.timestamp = dotask.timeStamp;
-                        await $.wait(100);
+                        await $.wait(100 + ite.browseTime * 1000);
                         if (ite.taskPrefixType == 2) {
                             if (dotask.rewardInfoVo.taskFinish == true) {
                                 console.log("获得 "+ dotask.rewardInfoVo.jbean +"京豆");
@@ -90,7 +90,7 @@ async function jd_wish() {
                         } else if (ite.taskPrefixType == 1) {
                             let getreward = await takePost(`{"taskId":"${ite.taskId}","taskItemId":${ite.taskItemId},"timestamp":"${$.timestamp}","skuId":"","taskType":null,"apiMapping":"/api/task/getReward"}`);
                             if (getreward.taskFinish == true) {
-                                console.log("获得"+ getreward.jbean);
+                                console.log("获得"+ getreward.jbean +"京豆");
                             }
                         }
                     }
