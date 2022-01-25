@@ -98,6 +98,7 @@ async function jd_wish() {
             }
         }
         time1 = Date.now().toLocaleString().split(' ')[0].substring(5);
+        console.log(time1)
         realtime = '0' + time1;
         console.log(realtime);
         let act = await takePost(`{"apiMapping":"/api/index/index"}`);
