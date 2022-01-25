@@ -97,21 +97,20 @@ async function jd_wish() {
                 }
             }
         }
-        time1 = Date.now().toLocaleString().split(' ')[0].substring(5);
-        console.log(time1)
+        time1 = new Date(Date.now()).toLocaleString().split(' ')[0].substring(5);
         realtime = '0' + time1;
-        console.log(realtime);
         let act = await takePost(`{"apiMapping":"/api/index/index"}`);
         signinfo = act.list || [];
-//         for (let k of signinfo) {
-//             if (k.date == realtime) {
-//                 if (k.status == 1) {
-//                     console.log(`当日任务已完成`)
-//                 } else {
-//                     console.log(`当日任务未完成，请手动查看`)
-//                 }
-//             }
-//         }
+        for (let k of signinfo) {
+            if (k.date == realtime) {
+                console.log(k);
+                if (k.status == 1) {
+                    console.log(`当日任务已完成`)
+                } else {
+                    console.log(`当日任务未完成，请手动查看`)
+                }
+            }
+        }
         console.log(`任务共计 ${act.total} 天,已完成 ${act.finishNum} 天💪🏻加油💪🏻`)
     } catch (e) {
         $.logErr(e)
