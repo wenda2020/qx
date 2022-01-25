@@ -62,6 +62,7 @@ function receiveRedRain() {
         } else {
           if (safeGet(data)) {
             data = JSON.parse(data);
+            console.log(data)
             if (data.data.bizCode == 0) {
                 if (data.data.result.hasOwnProperty(hbInfo)) {
                     console.log(`获得年货红包 ${data.data.result.hbInfo.discount} 元`);
