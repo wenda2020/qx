@@ -103,7 +103,7 @@ async function jd_wish() {
         signinfo = act.list || [];
         for (let k of signinfo) {
             if (k.date == realtime) {
-                console.log(JSON.parse(k));
+                console.log(k.date));
                 if (k.status == 1) {
                     console.log(`当日任务已完成`)
                 } else {
