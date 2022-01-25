@@ -54,7 +54,7 @@ const JD_API_HOST = 'https://api.m.jd.com/api';
 
 function receiveRedRain() {
   return new Promise(resolve => {
-      $.get(taskUrl('hby_lottery', {"babelProjectId":"01142214","babelPageId":"3344189"}), (err, resp, data) => {
+      $.get(taskUrl('hby_lottery', {"babelProjectId":"01142214", "babelPageId":"3351872"}), (err, resp, data) => {
       try {
         if (err) {
           console.log(`${JSON.stringify(err)}`)
