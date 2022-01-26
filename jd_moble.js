@@ -97,6 +97,7 @@ async function jd_wish() {
                 }
             }
         }
+        await takePost(`{"apiMapping":"/api/task/getTaskList"}`);
         time1 = new Date(Date.now()).toLocaleString().split(' ')[0].substring(5);
         realtime = '0' + time1;
         let act = await takePost(`{"apiMapping":"/api/index/index"}`);
