@@ -4,15 +4,11 @@ const notify = $.isNode() ? require('./sendNotify') : '';
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '';
-let jd_redrain_activityId = '';
-let jd_redrain_url =  '';
 let allMessage = '', message = '';
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
     cookiesArr.push(jdCookieNode[item])
   })
-  if (process.env.jd_redrain_activityId) jd_redrain_activityId = process.env.jd_redrain_activityId
-  if (process.env.jd_redrain_url) jd_redrain_url = process.env.jd_redrain_url
   if (process.env.JD_DEBUG && process.env.JD_DEBUG === 'false') console.log = () => {
   };
 } else {
