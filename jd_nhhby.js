@@ -118,7 +118,6 @@ function activeId() {
         $.get(option, (err, resp, data) => {
             try {
                 data = JSON.parse(data.match(/window.__react_data__ = (.*);/)[1]);
-                console.log(data)
             } catch (e) {
                 $.logErr(e, resp)
             } finally {
