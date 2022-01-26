@@ -43,7 +43,6 @@ if ($.isNode()) {
         await queryRedRainTemplateNew($.activityId)
       }
     }
-  }
   if (allMessage) {
     if ($.isNode()) await notify.sendNotify(`${$.name}`, `${allMessage}`);
     $.msg($.name, '', allMessage);
