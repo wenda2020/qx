@@ -111,8 +111,8 @@ async function jd_wish() {
           }
       }
     $.lasttime = parseInt($.endTime) - parseInt(86400000)
-    console.log($.lasttime)
-    if (Date.now() < $.lasttime) {
+    console.log("活动结束时间:"+ new Date($.endTime).toLocaleString().split(' ')[0]);
+    if (Date.now() > $.lasttime) {
         for (let b = 0; b < forNum && $.canLottery; b++) {
             await interact_template_getLotteryResult()
             await $.wait(1000)
