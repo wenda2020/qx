@@ -60,6 +60,7 @@ async function main() {
                     console.log(JSON.stringify(taskInfo.data.result.hbInfo));
                 } else {
                     console.log(JSON.stringify(taskInfo.data.result));
+                }
             } else {
                 console.log(JSON.stringify(taskInfo.data.bizMsg));
             }
