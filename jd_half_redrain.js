@@ -4,6 +4,7 @@ const notify = $.isNode() ? require('./sendNotify') : '';
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '';
+let RedRainIds = [];
 let allMessage = '', message = '';
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
@@ -20,8 +21,8 @@ if ($.isNode()) {
     $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', { "open-url": "https://bean.m.jd.com/bean/signIndex.action" });
     return;
   }
-    let RedRainIds = await getRedRainIds("https://gitee.com/msewb/update/raw/master/m_redrain_half_5232620221612.json");
-    $.activityId = RedRainIds;
+    RedRainIds = await getRedRainIds("https://gitee.com/msewb/update/raw/master/m_redrain_half_5232620221612.json");
+    $.activityId = RedRainIds[0];
     console.log($.activityId)
     for (let i = 0; i < 5; i++) {
       if (cookiesArr[i]) {
