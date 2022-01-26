@@ -110,6 +110,14 @@ async function jd_wish() {
           await $.wait(1000)
           }
       }
+    $.lasttime = parseInt($.endTime) - parseInt(86400000)
+    console.log($.lasttime)
+    if (Date.now() < $.lasttime) {
+        for (let b = 0; b < forNum && $.canLottery; b++) {
+            await interact_template_getLotteryResult()
+            await $.wait(1000)
+        }
+    }
     if (message) allMessage += `京东账号${$.index} ${$.nickName || $.UserName}\n${appName}\n${message}${$.index !== cookiesArr.length ? '\n\n' : ''}`
   } catch (e) {
     $.logErr(e)
@@ -127,6 +135,7 @@ async function healthyDay_getHomeData(type = true) {
                     if (safeGet(data)) {
                         data = JSON.parse(data);
                         if (type) {
+                            $.endTime = data.data.result.activityInfo.endTime;
                             for (let key of Object.keys(data.data.result.taskVos).reverse()) {
                                 let vo = data.data.result.taskVos[key]
                                 if (vo.status !== 2 && vo.status !== 0) {
