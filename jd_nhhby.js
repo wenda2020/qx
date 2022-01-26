@@ -56,7 +56,10 @@ async function main() {
         if (e) {
             let taskInfo = await task('hby_lottery', { "babelProjectId": e.actId, "babelPageId": e.pageId, "latitude": "", "longitude": "" });
             if (taskInfo.code === 0 && taskInfo.data.bizCode === 0) {
-                console.log(JSON.stringify(taskInfo.data.result.hbInfo));
+                if (taskInfo.data.result.hasOwnProperty(hbInfo)) {
+                    console.log(JSON.stringify(taskInfo.data.result.hbInfo));
+                } else {
+                    console.log(JSON.stringify(taskInfo.data.result));
             } else {
                 console.log(JSON.stringify(taskInfo.data.bizMsg));
             }
