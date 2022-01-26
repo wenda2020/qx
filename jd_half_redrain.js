@@ -119,11 +119,15 @@ function doInteractiveAssignment(encryptProjectId, encryptAssignmentId) {
           if (safeGet(data)) {
             data = JSON.parse(data);
             if (data.subCode == "0") {
-              //console.log(`${data.rewardsInfo.successRewards[3][0].rewardName}`);
-              message += `领取成功，获得 ${data.rewardsInfo.successRewards[3][0].rewardName}`
-              allMessage += `京东账号${$.index}${$.nickName || $.UserName}\n领取成功，获得 ${data.rewardsInfo.successRewards[3][0].rewardName}${$.index !== cookiesArr.length ? '\n\n' : ''}`;
+              if (data.rewardsInfo.hasOwnProperty(successRewards)) {
+                  console.log(`${data.rewardsInfo.successRewards[3][0].poolId} 京豆`);
+                  message += `领取成功，获得 ${data.rewardsInfo.successRewards[3][0].poolId}`
+                  allMessage += `京东账号${$.index}${$.nickName || $.UserName}\n领取成功，获得${data.rewardsInfo.successRewards[3][0].poolId}京豆${$.index !== cookiesArr.length ? '\n\n' : ''}`;
+              } else {
+                  console.log(`未获得京豆`)
+              }             
             } else {
-              console.log(data);
+              console.log(data.msg);
             }
           }
         }
