@@ -23,7 +23,7 @@ if ($.isNode()) {
     $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
     return;
   }
-    console.log(`\n默认不抽奖，抽奖时第11行let Candraw = 0改为1\n默认15次改12行想抽奖次数let Candrawtimes = 15\n\n抽奖时候只留下要抽奖活动对应的如 过新潮年要抽奖，改为\n\n第7行let appIdArr = ["1GFRRyqo"]\n\n第8行let appNameArr = ["过新潮年"];`)
+    console.log(`\n默认不抽奖，抽奖时第11行let Candraw = 0改为1\n默认抽15次改12行想抽奖次数let Candrawtimes = 15\n\n抽奖时候只留下要抽奖活动对应的如 过新潮年要抽奖，改为\n\n第7行let appIdArr = ["1GFRRyqo"]\n\n第8行let appNameArr = ["过新潮年"];`)
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
       cookie = cookiesArr[i];
