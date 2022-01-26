@@ -22,7 +22,9 @@ if ($.isNode()) {
     return;
   }
     RedRainIds = await getRedRainIds("https://gitee.com/msewb/update/raw/master/m_redrain_half_5232620221612.json");
-    $.activityId = RedRainIds[0];
+    for (let kk of RedRainIds) {
+       $.activityId = kk; 
+    }
     console.log($.activityId)
     for (let i = 0; i < 5; i++) {
       if (cookiesArr[i]) {
