@@ -4,8 +4,8 @@ const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 let message = '', allMessage = '';
 let cookiesArr = [], cookie = '';
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
-let appIdArr = ["1GVFUx6g","1E1xZy6s","1E1NXxq0","1GVJWyqg","1GFRRyqo"];
-let appNameArr = ["年味","PLUS生活特权","众筹许愿池","虎娃迎福献好礼","过新潮年"];
+let appIdArr = ["1GFNRxq8","1GVFUx6g","1E1xZy6s","1E1NXxq0","1GVJWyqg","1GFRRyqo"];
+let appNameArr = ["新年宠粉","年味","PLUS生活特权","众筹许愿池","虎娃迎福献好礼","过新潮年"];
 let appId, appName;
 $.shareCode = [];
 let Candraw = 0;//如果要抽奖改为1，默认抽奖次数5次
@@ -101,7 +101,7 @@ async function jd_wish() {
     if (forNum === 0) {
       console.log(`没有抽奖机会\n`)
     } else {
-      console.log(`可以抽奖${forNum}次，去抽奖\n`)
+      console.log(`现有积分${getHomeDataRes.userScore},抽奖消耗${getHomeDataRes.scorePerLottery},可以抽奖${forNum}次，去抽奖\n`)
     }
     $.canLottery = true
       if (Candraw == 1) {
@@ -113,6 +113,7 @@ async function jd_wish() {
     $.lasttime = parseInt($.endTime) - parseInt(86400000)
     console.log("活动结束时间:"+ new Date($.endTime).toLocaleString().split(' ')[0]);
     if (Date.now() > $.lasttime) {
+        console.log(`距活动结束小于1天，故抽完所有次数`)
         for (let b = 0; b < forNum && $.canLottery; b++) {
             await interact_template_getLotteryResult()
             await $.wait(1000)
