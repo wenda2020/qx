@@ -95,13 +95,13 @@ async function jd_wish() {
   try {
     await healthyDay_getHomeData();
     await $.wait(2000)
-    let getHomeDataRes = (await healthyDay_getHomeData(false)).data.result.userInfo
-    let forNum = Math.floor(getHomeDataRes.userScore / getHomeDataRes.scorePerLottery)
+    let getHomeDataRes = (await healthyDay_getHomeData(false)).data.result
+    let forNum = Math.floor(getHomeDataRes.userInfo.userScore / getHomeDataRes.userInfo.scorePerLottery)
     await $.wait(2000)
     if (forNum === 0) {
       console.log(`没有抽奖机会\n`)
     } else {
-      console.log(`可以抽奖${forNum}次，去抽奖\n`)
+      console.log(`当前积分:${getHomeDataRes.userInfo.userScore},抽奖消耗${getHomeDataRes.userInfo.scorePerLottery},可以抽奖${forNum}次，去抽奖\n`)
     }
     $.canLottery = true
       if (Candraw == 1) {
@@ -110,6 +110,7 @@ async function jd_wish() {
           await $.wait(1000)
           }
       }
+    $.endTime = getHomeDataRes.activityInfo.endTime;
     $.lasttime = parseInt($.endTime) - parseInt(86400000)
     console.log("活动结束时间:"+ new Date($.endTime).toLocaleString().split(' ')[0]);
     if (Date.now() > $.lasttime) {
@@ -135,7 +136,6 @@ async function healthyDay_getHomeData(type = true) {
                     if (safeGet(data)) {
                         data = JSON.parse(data);
                         if (type) {
-                            $.endTime = data.data.result.activityInfo.endTime;
                             $.taskVos = data.data.result.taskVos || [];
                             $.hottaskVos = data.data.result.hotTaskVos || [];
                             $.tasklist = $.taskVos.concat($.hottaskVos)
@@ -224,6 +224,7 @@ function harmony_collectScore(body = {}, taskType = '') {
                 if (data.code === -30001 || (data.data && data.data.bizCode === 108)) $.canHelp = false
                 if (data.data.bizCode === 103) $.delcode = true
               } else {
+                console.log(data.data.result.brandRegUrl)
                 console.log(body.actionType === "0" ? `完成任务失败：${data.data.bizMsg}\n` : data.data.bizMsg)
                 if (data.data.bizMsg === "任务已完成") $.complete = true;
               }
