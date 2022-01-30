@@ -151,7 +151,7 @@ async function healthyDay_getHomeData(type = true) {
                                         $.shareCode.push({"code": taskToken,"appId": appId,"use": $.UserName})
                                     } else {
                                         console.log(`当前正在做任务：${taskName}`)
-                                        await harmony_collectScore({"appId":appId,"taskToken":taskToken,"taskId":taskId,"actionType":"0"})
+                                        await harmony_collectScore({"appId":appId,"taskToken":taskToken,"taskId":taskId,"actionType":"0"}, taskType)
                                     }
                                     continue
                                 }
@@ -159,10 +159,10 @@ async function healthyDay_getHomeData(type = true) {
                                     const { taskToken, status , shopName , title , skuName } = activity
                                     if (status !== 1) continue
                                     console.log(`当前正在做任务：${shopName || title || skuName}`)
-                                    await harmony_collectScore({"appId":appId,"taskToken":taskToken,"taskId":taskId,"actionType":"1"})
+                                    await harmony_collectScore({"appId":appId,"taskToken":taskToken,"taskId":taskId,"actionType":"1"}, taskType)
                                     if (waitDuration) {
                                         await $.wait(waitDuration * 1000)
-                                        await harmony_collectScore({"appId":appId,"taskToken":taskToken,"taskId":taskId,"actionType":"0"})
+                                        await harmony_collectScore({"appId":appId,"taskToken":taskToken,"taskId":taskId,"actionType":"0"}, taskType)
                                     }
                                     times++
                                     if (times >= maxTimes) break
@@ -187,7 +187,7 @@ function mohuReadJson(json, key, len, keyName) {
             if (!len) return json[jsonKey]
             if (len === -1) {
                 if (json[jsonKey][keyName]) return json[jsonKey]
-            } else if (json[jsonKey]?.length >= len) {
+            } else if (json[jsonKey]?.length >= 2) {
                 if (keyName) {
                     if (json[jsonKey][0].hasOwnProperty(keyName)) {
                         return json[jsonKey]
@@ -213,18 +213,20 @@ function harmony_collectScore(body = {}, taskType = '') {
           if (safeGet(data)) {
             data = JSON.parse(data);
             if (data && data.data && data.data.bizCode === 0) {
-              if (body.taskId == 6) {
+              if (taskType == 14) {
                 console.log(`助力成功：您的好友获得${data.data.result.score}金币\n`)
               } else {
                 console.log(`完成任务：获得${data.data.result.score}金币\n`)
               }
             } else {
-              if (body.taskId == 6) {
+              if (taskType == 14) {
                 console.log(`助力失败：${data.data.bizMsg || data.msg}\n`)
                 if (data.code === -30001 || (data.data && data.data.bizCode === 108)) $.canHelp = false
                 if (data.data.bizCode === 103) $.delcode = true
-              } else {
+              } else if (taskType == 21) {
                 console.log(data.data.result.brandRegUrl)
+                console.log(data.data.bizMsg)
+              } else {
                 console.log(body.actionType === "0" ? `完成任务失败：${data.data.bizMsg}\n` : data.data.bizMsg)
                 if (data.data.bizMsg === "任务已完成") $.complete = true;
               }
