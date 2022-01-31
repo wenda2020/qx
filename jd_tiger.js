@@ -233,7 +233,7 @@ async function takePost(info) {
             } catch (e) {
                 $.logErr(e, resp)
             } finally {
-                resolve(data['data'] || {});
+                resolve(data);
             }
         })
     })
