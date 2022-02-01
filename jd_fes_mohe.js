@@ -137,7 +137,7 @@ async function doTask(isCommon) {
     })
 }
 async function getApi(function_id){
-    const url = `https://jdjoy.jd.com/module/freshgoods/${function_id}?code=90542d6a09e34c8f9ae37ec768efd875`;
+    const url = `https://jdjoy.jd.com/module/freshgoods/${function_id}?code=c3eb5b947ac44319b74f96b0ad76c534`;
     const headers = {
         'Accept' : `application/json, text/plain, */*`,
         'content-type':'application/json;charset=utf-8',
