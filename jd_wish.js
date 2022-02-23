@@ -4,8 +4,8 @@ const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 let message = '', allMessage = '';
 let cookiesArr = [], cookie = '';
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
-let appIdArr = ["1EFRQwA","1GVFUx6g","1E1xZy6s"];
-let appNameArr = ["疯狂砸金蛋","年味","PLUS生活特权"];
+let appIdArr = ["1EFRQwA","1E1xZy6s"];
+let appNameArr = ["疯狂砸金蛋","PLUS生活特权"];
 let appId, appName;
 $.shareCode = [];
 let Candraw = 0;//如果要抽奖改为1，默认抽奖次数5次
