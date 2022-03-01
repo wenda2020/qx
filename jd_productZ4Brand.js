@@ -9,6 +9,7 @@ let cookiesArr = [];
 let UA = ``;
 $.allInvite = [];
 let useInfo = {};
+let message = '', allMessage = '';
 $.helpEncryptAssignmentId = '';
 if ($.isNode()) {
     Object.keys(jdCookieNode).forEach((item) => {
@@ -73,6 +74,13 @@ if ($.isNode()) {
             await takeRequest('help');
             await $.wait(1000);
         }
+    }
+    if (message !== '') {
+      if ($.isNode()) {
+        await notify.sendNotify($.name, message);
+      } else {
+        $.msg($.name, '有点儿收获', message);
+      }
     }
 })().catch((e) => {$.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')}).finally(() => {$.done();})
 
@@ -230,15 +238,20 @@ function dealReturn(type, data) {
                 $.runFlag = false;
                 console.log(`抽奖次数已用完`);
             }else if(data.code === '0' && data.data.bizCode == 'TK000'){
-                if(data.data && data.data.result && data.data.result.rewardComponent && data.data.result.rewardComponent.beanList){
+                if(data.data && data.data.result && data.data.result.rewardComponent){
                     if(data.data.result.rewardComponent.beanList.length >0){
                         console.log(`获得豆子：${data.data.result.rewardComponent.beanList[0].quantity}`)
+                    }
+                    if(data.data.result.rewardComponent.realList.length >0){
+                        console.log(`🎁🎁获得实物🎁🎁：${data.data.result.rewardComponent.realList[0].rewardName}`)
+                        message+=(`\n【京东账号${$.index}】${$.nickName || $.UserName}\n\n🎁🎁获得实物🎁🎁：${data.data.result.rewardComponent.realList[0].rewardName}`)
                     }
                 }
             }else{
                 $.runFlag = false;
                 console.log(`抽奖失败`);
             }
+            console.log('\n\n')
             console.log(JSON.stringify(data));
             break;
 
